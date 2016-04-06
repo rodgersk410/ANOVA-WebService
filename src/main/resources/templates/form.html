@@ -1,0 +1,70 @@
+<html>
+<body>
+	<form action="#" th:action="@{/}" th:object="${personForm}"
+		method="post">
+		<body>
+			<h1>ANOVA TEST</h1>
+			<table>
+				<tr>
+					<td>Number of Genes:</td>
+					<td><input type="text" th:field="*{numGenes}" /></td>
+					<td th:if="${#fields.hasErrors('numGenes')}"
+						th:errors="*{numGenes}">Number Genes Error</td>
+				</tr>
+				<tr>
+					<td>Number of Selected Groups:</td>
+					<td><input type="text" th:field="*{numSelectedGroups}" /></td>
+					<td th:if="${#fields.hasErrors('numSelectedGroups')}"
+						th:errors="*{numSelectedGroups}">Number Select Groups Error</td>
+				</tr>
+				<tr>
+					<td>P-Value:</td>
+					<td><input type="text" th:field="*{pvalueth}" /></td>
+					<td th:if="${#fields.hasErrors('pvalueth')}"
+						th:errors="*{pvalueth}">P-Value Error</td>
+				</tr>
+				<tr>
+					<td>P-Value Estimation Type:</td>
+					<td><select name="pValueEstimation">
+							<option value="0">F Distribution</option>
+							<option value="1">Permutation</option>
+					</select></td>
+					<td th:if="${#fields.hasErrors('pValueEstimation')}"
+						th:errors="*{pValueEstimation}">P-value estimate Error</td>
+				</tr>
+				<tr>
+					<td>Permutations:</td>
+					<td><input type="text" th:field="*{permutationsNumber}" /></td>
+					<td th:if="${#fields.hasErrors('permutationsNumber')}"
+						th:errors="*{permutationsNumber}">Permutations Error</td>
+				</tr>
+				<tr>
+					<td>False Discovery Rate:</td>
+					<td><select name="falseDiscoveryRateControl">
+							<option value="0">Alpha</option>
+							<option value="1">Bonferroni</option>
+							<option value="2">Adjusted Bonferroni</option>
+							<option value="3">West Fall Young</option>
+							<option value="4">Number</option>
+							<option value="5">Proportion</option>
+					</select></td>
+					<td th:if="${#fields.hasErrors('falseDiscoveryRateControl')}"
+						th:errors="*{falseDiscoveryRateControl}">False Discovery Rate
+						Error</td>
+				</tr>
+				<tr>
+					<td>False Significance Genes Limit:</td>
+					<td><input type="text"
+						th:field="*{falseSignificantGenesLimit}" /></td>
+					<td th:if="${#fields.hasErrors('falseSignificantGenesLimit')}"
+						th:errors="*{falseSignificantGenesLimit}">False Genes Limit
+						Error</td>
+				</tr>
+				<tr>
+					<td><button type="submit">Submit</button></td>
+				</tr>
+			</table>
+		</body>
+	</form>
+</body>
+</html>
