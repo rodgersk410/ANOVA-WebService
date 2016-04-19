@@ -21,12 +21,12 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String showForm(PersonForm personForm) {
+    public String showForm(AnovaForm anovaForm) {
         return "form";
     }
 
     @RequestMapping(value="/", method=RequestMethod.POST)
-    public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult) {
+    public String checkAnovaInfo(@Valid AnovaForm anovaForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "form";

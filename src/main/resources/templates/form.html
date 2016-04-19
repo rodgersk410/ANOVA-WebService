@@ -1,15 +1,15 @@
 <html>
 <body>
-	<form action="#" th:action="@{/}" th:object="${personForm}"
+	<form action="#" th:action="@{/}" th:object="${anovaForm}"
 		method="post">
 		<body>
 			<h1>ANOVA TEST</h1>
 			<table>
 				<tr>
 					<td>Please upload a data file of the observed values from the trial:</td>
-					<td><input type="file" th:field="*{observedValues}" /></td>
-					<td th:if="${#fields.hasErrors('observedValues')}"
-						th:errors="*{observedValues}">Observed Data Values Error</td>
+					<td><input type="file" th:field="*{observedValuesFileName}" /></td>
+					<td th:if="${#fields.hasErrors('observedValuesFileName')}"
+						th:errors="*{observedValuesFileName}">Observed Values File Name Error</td>
 				</tr>
 				<tr>
 					<td>Number of Genes:</td>
