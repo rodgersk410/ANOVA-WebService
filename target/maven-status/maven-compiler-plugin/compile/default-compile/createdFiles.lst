@@ -5,10 +5,10 @@ org\geworkbench\components\anova\AnovaException.class
 org\geworkbench\components\anova\Anova.class
 org\geworkbench\components\anova\data\AnovaInput.class
 org\geworkbench\components\anova\FalseDiscoveryRateControl.class
+anovaApp\AnovaForm.class
 org\geworkbench\components\anova\data\AnovaOutput.class
 org\geworkbench\components\anova\gui\TableViewer$CellRenderer.class
 org\geworkbench\components\anova\gui\TableViewer.class
-anovaApp\PersonForm.class
 anovaApp\WebController.class
 org\geworkbench\components\anova\gui\TableViewer$1.class
 org\geworkbench\components\anova\PValueEstimation.class

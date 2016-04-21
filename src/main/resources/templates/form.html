@@ -7,7 +7,7 @@
 			<table>
 				<tr>
 					<td>Please upload a data file of the observed values from the trial:</td>
-					<td><input type="file" th:field="*{observedValuesFileName}" /></td>
+					<td><input type="text" th:field="*{observedValuesFileName}" /></td>
 					<td th:if="${#fields.hasErrors('observedValuesFileName')}"
 						th:errors="*{observedValuesFileName}">Observed Values File Name Error</td>
 				</tr>
