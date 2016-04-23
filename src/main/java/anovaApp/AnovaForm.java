@@ -22,27 +22,30 @@ public class AnovaForm {
 	private String observedValuesFileName;
 
 	private List<String> observedValues;
+	private float[][] observedValues2;
+	
+	public int[] groupAssignments = { 1, 1, 2, 2, 3, 3 };
 
 	@NotNull
-	private Integer numGenes;
+	private int numGenes;
 
 	@NotNull
-	private Integer numSelectedGroups;
+	private int numSelectedGroups;
 
 	@NotNull
-	private Double pvalueth;
+	private double pvalueth;
 
 	@NotNull
-	private Integer pValueEstimation;
+	private int pValueEstimation;
 
 	@NotNull
-	private Integer permutationsNumber;
+	private int permutationsNumber;
 
 	@NotNull
-	private Integer falseDiscoveryRateControl;
+	private int falseDiscoveryRateControl;
 
 	@NotNull
-	private Float falseSignificantGenesLimit;
+	private float falseSignificantGenesLimit;
 
 	public String getObservedValuesFileName() {
 		return observedValuesFileName;
@@ -56,6 +59,10 @@ public class AnovaForm {
 
 	public List<String> getObservedValues() {
 		return observedValues;
+	}
+	
+	public float[][] getObservedValues2() {
+		return observedValues2;
 	}
 
 	public void setObservedValues(String observedValuesFileName) {
@@ -146,11 +153,11 @@ public class AnovaForm {
 		this.falseDiscoveryRateControl = falseDiscoveryRateControl;
 	}
 
-	public Float getFalseSignificantGenesLimit() {
+	public float getFalseSignificantGenesLimit() {
 		return falseSignificantGenesLimit;
 	}
 
-	public void setFalseSignificantGenesLimit(Float falseSignificantGenesLimit) {
+	public void setFalseSignificantGenesLimit(float falseSignificantGenesLimit) {
 		this.falseSignificantGenesLimit = falseSignificantGenesLimit;
 	}
 
