@@ -32,13 +32,11 @@ public class WebController extends WebMvcConfigurerAdapter {
     public String checkAnovaInfo(@Valid AnovaForm anovaForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-          log.info("SOMETHING WENT WRONG");
         	return "form";
         }
 
         anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
-        log.info("SUCCSESFULLY DID THAT THING");
-        log.info(anovaForm.getObservedValues().get(0)==null ? "was null" : anovaForm.getObservedValues().get(0));
+
         return "redirect:/results";
     }
 }

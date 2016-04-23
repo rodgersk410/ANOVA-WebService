@@ -11,119 +11,147 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 public class AnovaForm {
-	
-	  private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
-    @NotNull
-    private String observedValuesFileName;
-    
 
-    private List<String> observedValues;
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @NotNull
-    private Integer numGenes;
-    
-    @NotNull
-    private Integer numSelectedGroups;
+	@NotNull
+	private String observedValuesFileName;
 
-    @NotNull
-    private Double pvalueth;
-    
-    @NotNull
-    private Integer pValueEstimation;
-    
-    @NotNull
-    private Integer permutationsNumber;
-    
-    @NotNull
-    private Integer falseDiscoveryRateControl;
+	private List<String> observedValues;
 
-    @NotNull
-    private Float falseSignificantGenesLimit;
+	@NotNull
+	private Integer numGenes;
 
-    public String getObservedValuesFileName() {
-        return observedValuesFileName;
-    }
+	@NotNull
+	private Integer numSelectedGroups;
 
-    public void setObservedValuesFileName(String observedValuesFileName) {
-    	log.info("1FILE NAME WAS: "+observedValuesFileName);
-        this.observedValuesFileName = observedValuesFileName;
-        //setObservedValues(observedValuesFileName);
-    }
+	@NotNull
+	private Double pvalueth;
 
-    public List<String> getObservedValues() {
-        return observedValues;
-    }
+	@NotNull
+	private Integer pValueEstimation;
 
-    public void setObservedValues(String observedValuesFileName) {
-    	try {
-    		//System.out.println(observedValuesFileName);
-    		//System.console().writer().println(observedValuesFileName);
-			log.info("2FILE NAME WAS: "+observedValuesFileName);
-    		observedValues = Files.readAllLines(Paths.get(observedValuesFileName));
-    		log.info("GOT HERE");
+	@NotNull
+	private Integer permutationsNumber;
+
+	@NotNull
+	private Integer falseDiscoveryRateControl;
+
+	@NotNull
+	private Float falseSignificantGenesLimit;
+
+	public String getObservedValuesFileName() {
+		return observedValuesFileName;
+	}
+
+	public void setObservedValuesFileName(String observedValuesFileName) {
+		log.info("1FILE NAME WAS: " + observedValuesFileName);
+		this.observedValuesFileName = observedValuesFileName;
+		// setObservedValues(observedValuesFileName);
+	}
+
+	public List<String> getObservedValues() {
+		return observedValues;
+	}
+
+	public void setObservedValues(String observedValuesFileName) {
+		try {
+			log.info("Filename is: " + observedValuesFileName);
+			observedValues = Files.readAllLines(Paths.get(observedValuesFileName));
+			String stringObservedValues = "";
+			for (String s : observedValues) {
+				stringObservedValues += s + "\t";
+			}
+
+			// Split on this delimiter
+			String[] rows = stringObservedValues.split("},\\{");
+			for (int i = 0; i < rows.length; i++) {
+				// Remove any beginning and ending braces and any white spaces
+				rows[i] = rows[i].replace("{{", "").replace("}}", "").replaceAll(" ", "").replaceAll("\t", "");
+			}
+
+			// Get the number of columns in a row
+			int numberOfColumns = rows[0].split(",").length;
+
+			// Setup matrix
+			String[][] matrix = new String[rows.length][numberOfColumns];
+			float[][] observedValues = new float[rows.length][numberOfColumns];
+
+			// Populate matrix
+			for (int i = 0; i < rows.length; i++) {
+				matrix[i] = rows[i].split(",");
+				for (int j = 0; j < matrix[i].length; j++) {
+					observedValues[i][j] = Float.parseFloat(matrix[i][j]);
+				}
+			}
+
+			// Display matrix
+			log.info("Matrix values: " + Arrays.deepToString(observedValues));
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			log.info(e.getMessage());
 		}
-    }
-    
-    public Integer getNumGenes() {
-        return numGenes;
-    }
+	}
 
-    public void setNumGenes(Integer numGenes) {
-        this.numGenes = numGenes;
-    }
-    
-    public Integer getNumSelectedGroups() {
-        return numSelectedGroups;
-    }
+	public Integer getNumGenes() {
+		return numGenes;
+	}
 
-    public void setNumSelectedGroups(Integer numSelectedGroups) {
-        this.numSelectedGroups = numSelectedGroups;
-    }
-    
-    public Double getPvalueth() {
-        return pvalueth;
-    }
+	public void setNumGenes(Integer numGenes) {
+		this.numGenes = numGenes;
+	}
 
-    public void setPvalueth(Double pvalueth) {
-        this.pvalueth = pvalueth;
-    }
-    
-    public Integer getPValueEstimation() {
-        return pValueEstimation;
-    }
+	public Integer getNumSelectedGroups() {
+		return numSelectedGroups;
+	}
 
-    public void setPValueEstimation(Integer pValueEstimation) {
-        this.pValueEstimation = pValueEstimation;
-    }
+	public void setNumSelectedGroups(Integer numSelectedGroups) {
+		this.numSelectedGroups = numSelectedGroups;
+	}
 
-    public Integer getPermutationsNumber() {
-        return permutationsNumber;
-    }
+	public Double getPvalueth() {
+		return pvalueth;
+	}
 
-    public void setPermutationsNumber(Integer permutationsNumber) {
-        this.permutationsNumber = permutationsNumber;
-    }
-    
-    public Integer getFalseDiscoveryRateControl() {
-        return falseDiscoveryRateControl;
-    }
+	public void setPvalueth(Double pvalueth) {
+		this.pvalueth = pvalueth;
+	}
 
-    public void setFalseDiscoveryRateControl(Integer falseDiscoveryRateControl) {
-        this.falseDiscoveryRateControl = falseDiscoveryRateControl;
-    }    
-    public Float getFalseSignificantGenesLimit() {
-        return falseSignificantGenesLimit;
-    }
+	public Integer getPValueEstimation() {
+		return pValueEstimation;
+	}
 
-    public void setFalseSignificantGenesLimit(Float falseSignificantGenesLimit) {
-        this.falseSignificantGenesLimit = falseSignificantGenesLimit;
-    }
-    
+	public void setPValueEstimation(Integer pValueEstimation) {
+		this.pValueEstimation = pValueEstimation;
+	}
+
+	public Integer getPermutationsNumber() {
+		return permutationsNumber;
+	}
+
+	public void setPermutationsNumber(Integer permutationsNumber) {
+		this.permutationsNumber = permutationsNumber;
+	}
+
+	public Integer getFalseDiscoveryRateControl() {
+		return falseDiscoveryRateControl;
+	}
+
+	public void setFalseDiscoveryRateControl(Integer falseDiscoveryRateControl) {
+		this.falseDiscoveryRateControl = falseDiscoveryRateControl;
+	}
+
+	public Float getFalseSignificantGenesLimit() {
+		return falseSignificantGenesLimit;
+	}
+
+	public void setFalseSignificantGenesLimit(Float falseSignificantGenesLimit) {
+		this.falseSignificantGenesLimit = falseSignificantGenesLimit;
+	}
+
 }
