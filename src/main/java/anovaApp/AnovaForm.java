@@ -5,11 +5,8 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -52,9 +49,7 @@ public class AnovaForm {
 	}
 
 	public void setObservedValuesFileName(String observedValuesFileName) {
-		log.info("1FILE NAME WAS: " + observedValuesFileName);
 		this.observedValuesFileName = observedValuesFileName;
-		// setObservedValues(observedValuesFileName);
 	}
 
 	public List<String> getObservedValues() {
@@ -93,11 +88,18 @@ public class AnovaForm {
 				matrix[i] = rows[i].split(",");
 				for (int j = 0; j < matrix[i].length; j++) {
 					observedValues[i][j] = Float.parseFloat(matrix[i][j]);
+					
 				}
 			}
+			
+			observedValues2=observedValues;
 
 			// Display matrix
-			log.info("Matrix values: " + Arrays.deepToString(observedValues));
+			for (int i =0; i <6; i++){
+				for (int j = 0; j<6; j++){
+					log.info("VALUE AT ["+i+"]["+j+"] "+observedValues2[i][j]);
+				}
+			}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

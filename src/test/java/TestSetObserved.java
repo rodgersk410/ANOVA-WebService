@@ -10,4 +10,11 @@ public class TestSetObserved {
 		form.setObservedValues("C:\\Users\\keith.rodgers\\Downloads\\observedValuesTestFile.txt");
 	}
 	
+	@Test
+	public void testGetObservedValues(){
+		AnovaForm form = new AnovaForm();
+		form.setObservedValues("C:\\Users\\keith.rodgers\\Downloads\\observedValuesTestFile.txt");
+		form.getObservedValues2();
+	}
+	
 }

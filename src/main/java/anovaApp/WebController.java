@@ -38,6 +38,7 @@ public class WebController extends WebMvcConfigurerAdapter {
         }
 
         anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
+        anovaForm.getObservedValues2();
         
 		AnovaInput input = new AnovaInput();
 		input.setA(anovaForm.getObservedValues2());

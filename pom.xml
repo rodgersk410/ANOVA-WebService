@@ -64,6 +64,11 @@
         	<artifactId>mev-util</artifactId>
         	<version>1.1</version>
         </dependency>
+        <dependency>
+        	<groupId>org.junit</groupId>
+        	<artifactId>junit</artifactId>
+        	<version>1.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>
