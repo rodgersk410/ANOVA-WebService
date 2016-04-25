@@ -10,14 +10,19 @@ import org.geworkbench.components.anova.data.AnovaOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
 @Controller
+@SessionAttributes("personObj")
 public class WebController extends WebMvcConfigurerAdapter {
 
     @Override
@@ -31,14 +36,14 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value="/", method=RequestMethod.POST)
-    public String checkAnovaInfo(@Valid AnovaForm anovaForm, BindingResult bindingResult) {
+    public String checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
         	return "form";
-        }
-
+        }    
+        
+        
         anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
-        anovaForm.getObservedValues2();
         
 		AnovaInput input = new AnovaInput();
 		input.setA(anovaForm.getObservedValues2());
@@ -55,12 +60,15 @@ public class WebController extends WebMvcConfigurerAdapter {
 		try {
 			Anova anova = new Anova(input);
 			output = anova.execute();
+			String output2 = output.toString();
+			model.addAttribute("Keith", output2);
+			
 			System.out.println(output.toString());
 			System.out.println("Finished service ..." + new java.util.Date());
 		} catch (AnovaException ae) {
 			ae.printStackTrace();
 		}
 
-        return "redirect:/results";
+        return "results";
     }
 }

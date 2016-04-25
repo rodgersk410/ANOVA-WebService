@@ -12,6 +12,12 @@
 						th:errors="*{observedValuesFileName}">Observed Values File Name Error</td>
 				</tr>
 				<tr>
+					<td>List the group assignments separated by commas (e.g. 1, 1, 2, 2):</td>
+					<td><input type="text" th:field="*{groupAssignments}" /></td>
+					<td th:if="${#fields.hasErrors('groupAssignments')}"
+						th:errors="*{groupAssignments}">Group assignment error</td>
+				</tr>
+				<tr>
 					<td>Number of Genes:</td>
 					<td><input type="text" th:field="*{numGenes}" /></td>
 					<td th:if="${#fields.hasErrors('numGenes')}"

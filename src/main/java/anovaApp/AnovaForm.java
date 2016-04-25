@@ -21,7 +21,7 @@ public class AnovaForm {
 	private List<String> observedValues;
 	private float[][] observedValues2;
 	
-	public int[] groupAssignments = { 1, 1, 2, 2, 3, 3 };
+	public int[] groupAssignments;
 
 	@NotNull
 	private int numGenes;
@@ -97,7 +97,7 @@ public class AnovaForm {
 			// Display matrix
 			for (int i =0; i <6; i++){
 				for (int j = 0; j<6; j++){
-					log.info("VALUE AT ["+i+"]["+j+"] "+observedValues2[i][j]);
+					//log.info("VALUE AT ["+i+"]["+j+"] "+observedValues2[i][j]);
 				}
 			}
 
@@ -105,6 +105,14 @@ public class AnovaForm {
 			// TODO Auto-generated catch block
 			log.info(e.getMessage());
 		}
+	}
+	
+	public int[] getGroupAssignments() {
+		return groupAssignments;
+	}
+
+	public void setGroupAssignments(int[] groupAssignments) {
+		this.groupAssignments = groupAssignments;
 	}
 
 	public Integer getNumGenes() {
