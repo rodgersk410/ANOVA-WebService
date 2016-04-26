@@ -1,6 +1,8 @@
 package anovaApp;
 
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.geworkbench.components.anova.Anova;
@@ -60,9 +62,9 @@ public class WebController extends WebMvcConfigurerAdapter {
 		try {
 			Anova anova = new Anova(input);
 			output = anova.execute();
-			String output2 = output.toString();
-			model.addAttribute("Keith", output2);
-			
+			model.addAttribute("featuresIndexes", Arrays.toString(output.getFeaturesIndexes()));
+			model.addAttribute("result2DArray", Arrays.deepToString(output.getResult2DArray()));
+			model.addAttribute("significances", Arrays.toString(output.getSignificances()));
 			System.out.println(output.toString());
 			System.out.println("Finished service ..." + new java.util.Date());
 		} catch (AnovaException ae) {
