@@ -5,6 +5,7 @@ org\geworkbench\components\anova\AnovaException.class
 org\geworkbench\components\anova\Anova.class
 org\geworkbench\components\anova\data\AnovaInput.class
 org\geworkbench\components\anova\FalseDiscoveryRateControl.class
+anovaApp\Database.class
 anovaApp\AnovaForm.class
 org\geworkbench\components\anova\data\AnovaOutput.class
 org\geworkbench\components\anova\gui\TableViewer$CellRenderer.class

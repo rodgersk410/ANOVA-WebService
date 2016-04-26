@@ -1,6 +1,7 @@
 package anovaApp;
 
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value="/", method=RequestMethod.POST)
-    public String checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) {
+    public String checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException {
 
         if (bindingResult.hasErrors()) {
         	return "form";
@@ -63,6 +64,10 @@ public class WebController extends WebMvcConfigurerAdapter {
 			Anova anova = new Anova(input);
 			output = anova.execute();
 			model.addAttribute("featuresIndexes", Arrays.toString(output.getFeaturesIndexes()));
+			
+			Database d1 = new Database();
+			d1.insertIndexValues(Arrays.toString(output.getFeaturesIndexes()));
+			
 			model.addAttribute("result2DArray", Arrays.deepToString(output.getResult2DArray()));
 			model.addAttribute("significances", Arrays.toString(output.getSignificances()));
 			System.out.println(output.toString());
