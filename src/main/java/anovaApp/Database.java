@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 public class Database {
 	
+	int integerJobId;
+	
 	public Connection getSqlLiteConnection(){	
 		Connection session = null;
     try {
@@ -25,11 +27,6 @@ public class Database {
         
         if (session != null) {
             System.out.println("Connected to the database");
-            DatabaseMetaData dm = (DatabaseMetaData) session.getMetaData();
-            System.out.println("Driver name: " + dm.getDriverName());
-            System.out.println("Driver version: " + dm.getDriverVersion());
-            System.out.println("Product name: " + dm.getDatabaseProductName());
-            System.out.println("Product version: " + dm.getDatabaseProductVersion());
             //conn.close();
         }
     } catch (ClassNotFoundException ex) {
@@ -39,10 +36,42 @@ public class Database {
     }
 	return session;
 	}
-
-	public void insertIndexValues(String featuresIndexes) throws SQLException{
+	
+	public Integer getIntegerJobId(){
 		Connection conn = this.getSqlLiteConnection();
-		String sql = "INSERT INTO AnovaResultsTable (featuresIndexes) VALUES ('" + featuresIndexes + "');";
+		
+		//TO DO: Check if there are records in the db
+		String sqlQueryTableCount = "Select COUNT(*) from AnovaResultsTable";
+		PreparedStatement TableCountQuery = conn.prepareStatement(sqlQueryTableCount);
+		int TableCountResult = TableCountQuery.executeQuery(sqlQueryTableCount).getInt(0);
+		
+		if(TableCountResult == 0){
+			//
+			integerJobId = 1;
+		}
+		else{
+			integerJobId = TableCountResult + 1;
+		}
+		return integerJobId;
+	}
+	
+	// TO DO: insert the Integer Id in the db before the calculation
+	// public insertIntegerId(){
+	
+	//insert IntegerId
+	//set status to 'Pending'
+//}
+
+	public void insertIndexValues(String featuresIndexes, 
+			String result2DArray, String significances) throws SQLException{
+		
+		Connection conn = this.getSqlLiteConnection();
+		
+		//TO DO: Query the db for the integer id
+		String sql = "INSERT INTO AnovaResultsTable "
+				+ "(featuresIndexes, result2DArray, significances) "
+				+ "VALUES ('" + featuresIndexes + "','" + result2DArray + "','" + significances + "');";
+		//TO DO: set status to Complete
 		final Logger log = LoggerFactory.getLogger(this.getClass());
 		log.info(sql);
 

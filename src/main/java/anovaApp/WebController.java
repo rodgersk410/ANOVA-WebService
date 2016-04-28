@@ -63,15 +63,19 @@ public class WebController extends WebMvcConfigurerAdapter {
 		try {
 			Anova anova = new Anova(input);
 			output = anova.execute();
+			
+			//TO DO: insert the integerId to the db
+			
 			model.addAttribute("featuresIndexes", Arrays.toString(output.getFeaturesIndexes()));
-			
-			Database d1 = new Database();
-			d1.insertIndexValues(Arrays.toString(output.getFeaturesIndexes()));
-			
 			model.addAttribute("result2DArray", Arrays.deepToString(output.getResult2DArray()));
 			model.addAttribute("significances", Arrays.toString(output.getSignificances()));
-			System.out.println(output.toString());
-			System.out.println("Finished service ..." + new java.util.Date());
+			
+			//find the integerId then insert the calculated result into the db
+			Database d1 = new Database();
+			d1.insertIndexValues(Arrays.toString(output.getFeaturesIndexes()), 
+					Arrays.deepToString(output.getResult2DArray()), 
+					Arrays.toString(output.getSignificances()));
+
 		} catch (AnovaException ae) {
 			ae.printStackTrace();
 		}
