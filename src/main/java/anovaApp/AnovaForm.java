@@ -12,8 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AnovaForm {
-
+	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private int integerJobId;	
 
 	@NotNull
 	private String observedValuesFileName;

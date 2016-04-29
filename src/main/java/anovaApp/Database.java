@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class Database {
 	
-	int integerJobId;
+//	int integerJobId;
 	
 	public Connection getSqlLiteConnection(){	
 		Connection session = null;
@@ -37,6 +37,7 @@ public class Database {
 	return session;
 	}
 	
+	/*
 	public Integer getIntegerJobId(){
 		Connection conn = this.getSqlLiteConnection();
 		
@@ -46,7 +47,7 @@ public class Database {
 		int TableCountResult = TableCountQuery.executeQuery(sqlQueryTableCount).getInt(0);
 		
 		if(TableCountResult == 0){
-			//
+			
 			integerJobId = 1;
 		}
 		else{
@@ -54,6 +55,7 @@ public class Database {
 		}
 		return integerJobId;
 	}
+	*/
 	
 	// TO DO: insert the Integer Id in the db before the calculation
 	// public insertIntegerId(){

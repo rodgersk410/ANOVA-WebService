@@ -5,6 +5,7 @@ public class AnovaOutput {
 	private  double[][] result2DArray;
 	private int[] featuresIndexes;
 	private double[] significances;	
+	static int integerJobId=0;
 	
 	public AnovaOutput()
 	{
@@ -67,6 +68,12 @@ public class AnovaOutput {
 	    
 		return sb.toString();
 	}
+	/*
+	public void incrementJobId() {
+		integerJobId=integerJobId+1;
+		
+	}
+	*/
 	
 	
 }
