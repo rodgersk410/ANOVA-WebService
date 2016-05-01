@@ -13,6 +13,7 @@ import org.geworkbench.components.anova.data.AnovaInput;
 import org.geworkbench.components.anova.data.AnovaOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,7 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value="/", method=RequestMethod.GET)
+//    @Async("threadPoolTaskExecuter")
     public String showForm(AnovaForm anovaForm) {
         return "form";
     }
@@ -50,16 +52,20 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
     */
     
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	
+
+	@RequestMapping(value="/Anova", method=RequestMethod.POST)
     @ResponseBody
-    public AnovaOutput checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException {
+//    @Async("threadPoolTaskExecuter")
+    public void checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException, InterruptedException {
 
     	/*
         if (bindingResult.hasErrors()) {
         	return "form";
         }    
         */
-        
+        Thread.sleep(5000);
+    	
         anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
         
 		AnovaInput input = new AnovaInput();
@@ -97,6 +103,14 @@ public class WebController extends WebMvcConfigurerAdapter {
 			ae.printStackTrace();
 		}
 
-        return output;
+        //return output;
     }
+    
+//	@Async("threadPoolTaskExecuter")
+	@RequestMapping(value="/", method=RequestMethod.POST)
+	public String returnConfirmationPage(){
+		return "results";
+	}
+	
+
 }
