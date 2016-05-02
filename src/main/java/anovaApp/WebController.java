@@ -3,6 +3,7 @@ package anovaApp;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.validation.Valid;
@@ -54,17 +55,17 @@ public class WebController extends WebMvcConfigurerAdapter {
     
 	
 
-	@RequestMapping(value="/Anova", method=RequestMethod.POST)
+	@RequestMapping(value="/", method=RequestMethod.POST)
     @ResponseBody
 //    @Async("threadPoolTaskExecuter")
-    public void checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException, InterruptedException {
+    public Callable<AnovaOutput> checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException, InterruptedException {
 
     	/*
         if (bindingResult.hasErrors()) {
         	return "form";
         }    
         */
-        Thread.sleep(5000);
+        //Thread.sleep(5000);
     	
         anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
         
@@ -78,12 +79,15 @@ public class WebController extends WebMvcConfigurerAdapter {
 		input.setPermutationsNumber(anovaForm.getPermutationsNumber());
 		input.setPValueEstimation(anovaForm.getPValueEstimation());
 		input.setPvalueth(anovaForm.getPvalueth());
-		
-		AnovaOutput output = null;
+		//Callable<AnovaOutput> output = null;
+		//AnovaOutput output = null;
+		/*
 		try {
+		*/
 			Anova anova = new Anova(input);
 			//output.incrementJobId();
-			output = anova.execute();
+			//output = anova.execute();
+			Callable<AnovaOutput> output = anova::execute;
 			
 			//TO DO: insert the integerId to the db
 			/*
@@ -93,24 +97,23 @@ public class WebController extends WebMvcConfigurerAdapter {
 			*/
 			
 			//find the integerId then insert the calculated result into the db
+			/*
 			Database d1 = new Database();
 			d1.insertIndexValues(Arrays.toString(output.getFeaturesIndexes()), 
 					Arrays.deepToString(output.getResult2DArray()), 
 					Arrays.toString(output.getSignificances()));
-			
+			*/
 
+			/*
 		} catch (AnovaException ae) {
 			ae.printStackTrace();
 		}
+		*/
 
-        //return output;
+        return output;
     }
     
-//	@Async("threadPoolTaskExecuter")
-	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String returnConfirmationPage(){
-		return "results";
-	}
+
 	
 
 }

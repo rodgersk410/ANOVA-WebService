@@ -61,7 +61,7 @@ public class AnovaForm {
 		return observedValues2;
 	}
 
-	public void setObservedValues(String observedValuesFileName) {
+	public void setObservedValues(String observedValuesFileName) throws InterruptedException {
 		try {
 			log.info("Filename is: " + observedValuesFileName);
 			observedValues = Files.readAllLines(Paths.get(observedValuesFileName));
@@ -70,6 +70,8 @@ public class AnovaForm {
 				stringObservedValues += s + "\t";
 			}
 
+			//Thread.sleep(2000);
+			
 			// Split on this delimiter
 			String[] rows = stringObservedValues.split("},\\{");
 			for (int i = 0; i < rows.length; i++) {

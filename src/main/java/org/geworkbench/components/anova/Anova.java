@@ -44,7 +44,9 @@ public class Anova   {
 		 this.falseSignificantGenesLimit = input.getFalseSignificantGenesLimit();
 	}
 
-	public AnovaOutput execute() throws AnovaException {	 
+	public AnovaOutput execute() throws AnovaException, InterruptedException {	
+		
+		Thread.sleep(7000);
 		 
 		cancelled = false;		
 	 
