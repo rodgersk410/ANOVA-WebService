@@ -33,6 +33,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebController extends WebMvcConfigurerAdapter {
 	
 	private final AtomicLong counter = new AtomicLong();
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -56,9 +57,9 @@ public class WebController extends WebMvcConfigurerAdapter {
 	
 
 	@RequestMapping(value="/", method=RequestMethod.POST)
-    @ResponseBody
+//    @ResponseBody
 //    @Async("threadPoolTaskExecuter")
-    public Callable<AnovaOutput> checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException, InterruptedException {
+    public String checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException, InterruptedException {
 
     	/*
         if (bindingResult.hasErrors()) {
@@ -87,7 +88,12 @@ public class WebController extends WebMvcConfigurerAdapter {
 			Anova anova = new Anova(input);
 			//output.incrementJobId();
 			//output = anova.execute();
-			Callable<AnovaOutput> output = anova::execute;
+			logger.info("Request received");
+			//Callable<AnovaOutput> output = anova::execute;
+			MyRunnable runnable = new MyRunnable(anova);
+			Thread t = new Thread(runnable, "anova new thread");
+			t.start();
+			logger.info("Servlet thread released");
 			
 			//TO DO: insert the integerId to the db
 			/*
@@ -110,8 +116,14 @@ public class WebController extends WebMvcConfigurerAdapter {
 		}
 		*/
 
-        return output;
+        return "results";
     }
+	
+    @RequestMapping(value="/results", method=RequestMethod.GET)
+//  @Async("threadPoolTaskExecuter")
+  public String showResultsForm() {
+      return "results";
+  }	
     
 
 	

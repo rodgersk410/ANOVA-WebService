@@ -2,7 +2,8 @@ package org.geworkbench.components.anova;
  
 import org.geworkbench.components.anova.data.AnovaInput;
 import org.geworkbench.components.anova.data.AnovaOutput;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tigr.microarray.mev.cluster.algorithm.AbortException;
 import org.tigr.microarray.mev.cluster.algorithm.AlgorithmData;
 import org.tigr.microarray.mev.cluster.algorithm.AlgorithmException;
@@ -45,8 +46,10 @@ public class Anova   {
 	}
 
 	public AnovaOutput execute() throws AnovaException, InterruptedException {	
-		
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("methoooddd starting before sleeping");
 		Thread.sleep(7000);
+		logger.info("Slow task executed");
 		 
 		cancelled = false;		
 	 
