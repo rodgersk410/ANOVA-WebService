@@ -13,18 +13,20 @@ public class MyRunnable implements Runnable {
 	
 	Anova anova = null;
 	AnovaOutput output = null;
-	Database d1;
+	AnovaDatabase d1;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public MyRunnable(Anova anova, Database d1){
+	//Processing on a new thread needs the anova object to process and a database connection
+	public MyRunnable(Anova anova, AnovaDatabase d1){
 		this.anova = anova;
 		this.d1 = d1;
 	}
 
+	//calculate the anova result and post it to the database
     public void run(){
     	try {
 			output = this.anova.execute();
-			d1.insertIndexValues(Arrays.toString(output.getFeaturesIndexes()), 
+			d1.updateIndexValues(Arrays.toString(output.getFeaturesIndexes()), 
 					Arrays.deepToString(output.getResult2DArray()), 
 					Arrays.toString(output.getSignificances()));
 		} catch (AnovaException e) {

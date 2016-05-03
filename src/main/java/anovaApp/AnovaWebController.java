@@ -1,28 +1,23 @@
 package anovaApp;
 
 import java.sql.SQLException;
-import java.util.concurrent.atomic.AtomicLong;
 import javax.validation.Valid;
 import org.geworkbench.components.anova.Anova;
 import org.geworkbench.components.anova.data.AnovaInput;
-import org.geworkbench.components.anova.data.AnovaOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Controller
-public class WebController extends WebMvcConfigurerAdapter {
+public class AnovaWebController extends WebMvcConfigurerAdapter {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -50,7 +45,7 @@ public class WebController extends WebMvcConfigurerAdapter {
 
 		// create an AnovaInput object and apply the form's values to it
 		AnovaInput input = new AnovaInput();
-		input.setA(anovaForm.getobservedValuesArray());
+		input.setA(anovaForm.getObservedValuesArray());
 		input.setFalseDiscoveryRateControl(anovaForm.getFalseDiscoveryRateControl());
 		input.setFalseSignificantGenesLimit(anovaForm.getFalseSignificantGenesLimit());
 		input.setGroupAssignments(anovaForm.groupAssignments);
@@ -60,17 +55,17 @@ public class WebController extends WebMvcConfigurerAdapter {
 		input.setPValueEstimation(anovaForm.getPValueEstimation());
 		input.setPvalueth(anovaForm.getPvalueth());
 
-		// create a new in the database to get the integer job id
-		// add the integer job id to the model so it can be shown in the view
-		Database blankRows = new Database();
+		/* create a new in the database to get the integer job id
+		   add the integer job id to the model so it can be shown in the view */
+		AnovaDatabase blankRows = new AnovaDatabase();
 		blankRows.createBlankDbRow();
 		model.addAttribute("integerJobId", blankRows.getIntegerJobId());
 		
-		// create and Anova output object with the input as a parameter for execution.
-		// open database connection to send data once execution is done
-		// process this calculation on a new thread
+		/* create and Anova output object with the input as a parameter for execution.
+		   open database connection to send data once execution is done
+		   process this calculation on a new thread */
 		Anova anova = new Anova(input);
-		Database d1 = new Database();
+		AnovaDatabase d1 = new AnovaDatabase();
 		logger.info("Before new thread is created for Anova calculation");
 		MyRunnable runnable = new MyRunnable(anova, d1);
 		Thread t = new Thread(runnable, "anova new thread");

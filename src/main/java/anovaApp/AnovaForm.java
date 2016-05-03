@@ -55,7 +55,7 @@ public class AnovaForm {
 		return observedValues;
 	}
 	
-	public float[][] getobservedValuesArray() {
+	public float[][] getObservedValuesArray() {
 		return observedValuesArray;
 	}
 

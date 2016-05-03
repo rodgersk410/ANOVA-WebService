@@ -23,7 +23,7 @@ public class AnovaResultQuery {
 	}
 	
 	public String queryFeaturesIndexes(int integerJobId) throws SQLException{
-		Database db = new Database();
+		AnovaDatabase db = new AnovaDatabase();
 		Connection conn = db.getSqlLiteConnection();
 		
 		String sql = "SELECT featuresIndexes FROM AnovaResultsTable "
@@ -41,7 +41,7 @@ public class AnovaResultQuery {
 	}
 	
 	public String queryResult2DArray(int integerJobId) throws SQLException{
-		Database db = new Database();
+		AnovaDatabase db = new AnovaDatabase();
 		Connection conn = db.getSqlLiteConnection();
 		
 		String sql = "SELECT result2DArray FROM AnovaResultsTable "
@@ -59,7 +59,7 @@ public class AnovaResultQuery {
 	}
 	
 	public String querySignificances(int integerJobId) throws SQLException{
-		Database db = new Database();
+		AnovaDatabase db = new AnovaDatabase();
 		Connection conn = db.getSqlLiteConnection();
 		
 		String sql = "SELECT significances FROM AnovaResultsTable "
