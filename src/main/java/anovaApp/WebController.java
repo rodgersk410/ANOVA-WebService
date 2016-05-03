@@ -80,44 +80,28 @@ public class WebController extends WebMvcConfigurerAdapter {
 		input.setPermutationsNumber(anovaForm.getPermutationsNumber());
 		input.setPValueEstimation(anovaForm.getPValueEstimation());
 		input.setPvalueth(anovaForm.getPvalueth());
-		//Callable<AnovaOutput> output = null;
-		//AnovaOutput output = null;
-		/*
-		try {
-		*/
+
+
 			Database blankRows = new Database();
 			blankRows.createBlankDbRow();
 			Anova anova = new Anova(input);
 			Database d1 = new Database();
-			//output.incrementJobId();
-			//output = anova.execute();
+			
+
 			logger.info("Request received");
-			//Callable<AnovaOutput> output = anova::execute;
 			MyRunnable runnable = new MyRunnable(anova, d1);
 			Thread t = new Thread(runnable, "anova new thread");
 			t.start();
 			logger.info("Servlet thread released");
 			
-			//TO DO: insert the integerId to the db
 			/*
 			model.addAttribute("featuresIndexes", Arrays.toString(output.getFeaturesIndexes()));
 			model.addAttribute("result2DArray", Arrays.deepToString(output.getResult2DArray()));
 			model.addAttribute("significances", Arrays.toString(output.getSignificances()));
 			*/
 			
-			//find the integerId then insert the calculated result into the db
-			/*
-			Database d1 = new Database();
-			d1.insertIndexValues(Arrays.toString(output.getFeaturesIndexes()), 
-					Arrays.deepToString(output.getResult2DArray()), 
-					Arrays.toString(output.getSignificances()));
-			*/
-
-			/*
-		} catch (AnovaException ae) {
-			ae.printStackTrace();
-		}
-		*/
+			model.addAttribute("integerJobId", blankRows.getIntegerJobId());
+			
 
         return "results";
     }
