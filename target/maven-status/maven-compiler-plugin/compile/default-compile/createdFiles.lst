@@ -14,4 +14,5 @@ anovaApp\SpringAsyncConfig.class
 anovaApp\WebController.class
 org\geworkbench\components\anova\gui\TableViewer$1.class
 anovaApp\MyRunnable.class
+anovaApp\AnovaResultQuery.class
 org\geworkbench\components\anova\PValueEstimation.class

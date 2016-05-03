@@ -2,8 +2,7 @@
 <body>
 	<form action="#" th:action="@{/results}">
 		<body>
-			<h1>Your confirmation number is:</h1>
-			<h1>${integerJobId}</h1>
+			<p th:text="'Your confirmation number is: ' + ${integerJobId}" />
 		</body>
 	</form>
 </body>

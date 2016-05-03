@@ -41,7 +41,6 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-//    @Async("threadPoolTaskExecuter")
     public String showForm(AnovaForm anovaForm) {
         return "form";
     }
@@ -54,11 +53,8 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
     */
     
-	
-
 	@RequestMapping(value="/", method=RequestMethod.POST)
 //    @ResponseBody
-//    @Async("threadPoolTaskExecuter")
     public String checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult) throws SQLException, InterruptedException {
 
     	/*
@@ -66,7 +62,6 @@ public class WebController extends WebMvcConfigurerAdapter {
         	return "form";
         }    
         */
-        //Thread.sleep(5000);
     	
         anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
         
@@ -106,10 +101,22 @@ public class WebController extends WebMvcConfigurerAdapter {
         return "results";
     }
 	
-    @RequestMapping(value="/results", method=RequestMethod.GET)
-//  @Async("threadPoolTaskExecuter")
-  public String showResultsForm() {
-      return "results";
+    @RequestMapping(value="/Query", method=RequestMethod.GET)
+    public String showQueryForm(AnovaResultQuery anovaResultQuery) {
+        return "InputQueryForm";
+    }
+	
+    @RequestMapping(value="/Query", method=RequestMethod.POST)
+  public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery, Model model) {
+    	try {
+			model.addAttribute("featuresIndexes", anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getIntegerJobId()));
+			model.addAttribute("result2DArray", anovaResultQuery.queryResult2DArray(anovaResultQuery.getIntegerJobId()));
+			model.addAttribute("significances", anovaResultQuery.querySignificances(anovaResultQuery.getIntegerJobId()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      return "Query";
   }	
     
 
