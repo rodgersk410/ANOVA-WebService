@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class Database {
 	
-//	int integerJobId;
+	int integerJobId;
 	
 	public Connection getSqlLiteConnection(){	
 		Connection session = null;
@@ -68,11 +68,13 @@ public class Database {
 			String result2DArray, String significances) throws SQLException{
 		
 		Connection conn = this.getSqlLiteConnection();
+		integerJobId = getIntegerJobId();
 		
 		//TO DO: Query the db for the integer id
-		String sql = "INSERT INTO AnovaResultsTable "
-				+ "(featuresIndexes, result2DArray, significances) "
-				+ "VALUES ('" + featuresIndexes + "','" + result2DArray + "','" + significances + "');";
+		String sql = "UPDATE AnovaResultsTable SET "
+				+ "featuresIndexes='" + featuresIndexes + "', result2DArray='" + result2DArray + "',"
+						+ "significances='" + significances + "'"
+								+ "WHERE integerJobId='" + integerJobId + "';";
 		//TO DO: set status to Complete
 		final Logger log = LoggerFactory.getLogger(this.getClass());
 		log.info(sql);
@@ -80,6 +82,39 @@ public class Database {
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.executeUpdate();
 		conn.close();
+	}
+	
+	public void createBlankDbRow() throws SQLException{
+		
+		Connection conn = this.getSqlLiteConnection();
+		
+		//TO DO: Query the db for the integer id
+		String sql = "INSERT INTO [AnovaResultsTable] DEFAULT VALUES;";
+		//TO DO: set status to Complete
+		final Logger log = LoggerFactory.getLogger(this.getClass());
+		log.info(sql);
+
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.executeUpdate();
+		conn.close();
+	}
+	
+	public int getIntegerJobId() throws SQLException{
+		
+		Connection conn = this.getSqlLiteConnection();
+		
+		//TO DO: Query the db for the integer id
+		String sql = "SELECT COUNT(*) FROM AnovaResultsTable;";
+		//TO DO: set status to Complete
+		final Logger log = LoggerFactory.getLogger(this.getClass());
+		log.info(sql);
+
+		PreparedStatement ps = conn.prepareStatement(sql);
+		integerJobId = ps.executeQuery().getInt(1);
+		conn.close();
+		log.info("Integer Job Id" + integerJobId);
+		
+		return integerJobId;
 	}
 	
 }

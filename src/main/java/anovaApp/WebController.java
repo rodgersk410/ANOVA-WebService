@@ -85,12 +85,15 @@ public class WebController extends WebMvcConfigurerAdapter {
 		/*
 		try {
 		*/
+			Database blankRows = new Database();
+			blankRows.createBlankDbRow();
 			Anova anova = new Anova(input);
+			Database d1 = new Database();
 			//output.incrementJobId();
 			//output = anova.execute();
 			logger.info("Request received");
 			//Callable<AnovaOutput> output = anova::execute;
-			MyRunnable runnable = new MyRunnable(anova);
+			MyRunnable runnable = new MyRunnable(anova, d1);
 			Thread t = new Thread(runnable, "anova new thread");
 			t.start();
 			logger.info("Servlet thread released");
