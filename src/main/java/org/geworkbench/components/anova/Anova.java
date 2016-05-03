@@ -47,9 +47,9 @@ public class Anova   {
 
 	public AnovaOutput execute() throws AnovaException, InterruptedException {	
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
-		logger.info("methoooddd starting before sleeping");
-		Thread.sleep(30000);
-		logger.info("Slow task executed");
+		logger.info("Slow Anova calculation has started");
+		Thread.sleep(1000);
+		logger.info("Slow Anova calculation has completed");
 		 
 		cancelled = false;		
 	 

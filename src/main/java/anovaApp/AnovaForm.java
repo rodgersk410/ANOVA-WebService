@@ -8,19 +8,17 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 public class AnovaForm {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	private int integerJobId;	
 
 	@NotNull
 	private String observedValuesFileName;
 
 	private List<String> observedValues;
-	private float[][] observedValues2;
+	private float[][] observedValuesArray;
 	
 	public int[] groupAssignments;
 
@@ -57,8 +55,8 @@ public class AnovaForm {
 		return observedValues;
 	}
 	
-	public float[][] getObservedValues2() {
-		return observedValues2;
+	public float[][] getobservedValuesArray() {
+		return observedValuesArray;
 	}
 
 	public void setObservedValues(String observedValuesFileName) throws InterruptedException {
@@ -69,8 +67,6 @@ public class AnovaForm {
 			for (String s : observedValues) {
 				stringObservedValues += s + "\t";
 			}
-
-			//Thread.sleep(2000);
 			
 			// Split on this delimiter
 			String[] rows = stringObservedValues.split("},\\{");
@@ -95,14 +91,7 @@ public class AnovaForm {
 				}
 			}
 			
-			observedValues2=observedValues;
-
-			// Display matrix
-			for (int i =0; i <6; i++){
-				for (int j = 0; j<6; j++){
-					//log.info("VALUE AT ["+i+"]["+j+"] "+observedValues2[i][j]);
-				}
-			}
+			observedValuesArray=observedValues;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

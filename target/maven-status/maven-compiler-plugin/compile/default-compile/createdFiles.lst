@@ -10,7 +10,6 @@ anovaApp\AnovaForm.class
 org\geworkbench\components\anova\data\AnovaOutput.class
 org\geworkbench\components\anova\gui\TableViewer$CellRenderer.class
 org\geworkbench\components\anova\gui\TableViewer.class
-anovaApp\SpringAsyncConfig.class
 anovaApp\WebController.class
 org\geworkbench\components\anova\gui\TableViewer$1.class
 anovaApp\MyRunnable.class

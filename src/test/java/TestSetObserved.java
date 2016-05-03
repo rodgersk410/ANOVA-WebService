@@ -14,7 +14,7 @@ public class TestSetObserved {
 	public void testGetObservedValues() throws InterruptedException{
 		AnovaForm form = new AnovaForm();
 		form.setObservedValues("C:\\Users\\keith.rodgers\\Downloads\\observedValuesTestFile.txt");
-		form.getObservedValues2();
+		form.getobservedValuesArray();
 	}
 	
 }
