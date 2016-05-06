@@ -78,8 +78,8 @@
 			</table>
 		</body>
 	</form>
-		<form action="#" th:action="@{/}" th:object="${anovaResultQuery}"
-		method="post">
+		<form action="#" th:action="@{/query}" th:object="${anovaResultQuery}"
+		method="get">
 		<body>
 			<h1>Query an existing calculation</h1>
 			<table>
@@ -88,7 +88,7 @@
 					<td><input type="text" th:field="*{integerJobId}" /></td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="query" class="button" value="Query"/></td>
+					<td><input type="submit" class="button" value="query"/></td>
 				</tr>
 			</table>
 		</body>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,11 +82,12 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		 * Arrays.toString(output.getSignificances()));
 		 */
 
-		return "results";
+		return "confirmation";
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST, params="query")
-	public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery, Model model, BindingResult bindingResult2) {
+	@RequestMapping(value = "/query", method = RequestMethod.GET)
+	public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery,
+			Model model, BindingResult bindingResult2) {
 		try {
 			model.addAttribute("featuresIndexes",
 					anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getIntegerJobId()));
@@ -93,11 +95,26 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 					anovaResultQuery.queryResult2DArray(anovaResultQuery.getIntegerJobId()));
 			model.addAttribute("significances",
 					anovaResultQuery.querySignificances(anovaResultQuery.getIntegerJobId()));
+			//model.addAttribute("job", anovaResultQuery.getIntegerJobId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "Query";
+		return "query";
 	}
+	
+	/*
+	@RequestMapping(value="/owners/{ownerId}", method=RequestMethod.GET)
+	public String findOwner(@PathVariable String ownerId, Model model) {
+	  Owner owner = ownerService.findOwner(ownerId);
+	  model.addAttribute("owner", owner);
+	  return "displayOwner";
+	}
+	*/
+	
+	
+	
+	
+
 
 }
