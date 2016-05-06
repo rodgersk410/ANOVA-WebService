@@ -1,7 +1,6 @@
 <html>
 <body>
-	<form action="#" th:action="@{/}" th:object="${anovaForm}"
-		method="post">
+	<form action="#" th:action="@{/confirmation}" th:object="${anovaForm}" method="post">
 		<body>
 			<h1>Perform Anova calculation</h1>
 			<table>
@@ -78,8 +77,7 @@
 			</table>
 		</body>
 	</form>
-		<form action="#" th:action="@{/query}" th:object="${anovaResultQuery}"
-		method="get">
+		<form action="#" th:action="@{/query}" th:object="${anovaResultQuery}" method="get">
 		<body>
 			<h1>Query an existing calculation</h1>
 			<table>

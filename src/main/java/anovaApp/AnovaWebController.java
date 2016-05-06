@@ -22,21 +22,14 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showForm(AnovaForm anovaForm, AnovaResultQuery anovaResultQuery) {
 		return "form";
 	}
 
-	/*
-	 * @RequestMapping("/{0}")
-	 * 
-	 * @ResponseBody public AnovaOutput getById(@PathVariable Long id) { return
-	 * output.getById(id); }
-	 */
-
-	@RequestMapping(value = "/", method = RequestMethod.POST, params="calculate")
-	// @ResponseBody
-	public String checkAnovaInfo(@ModelAttribute AnovaForm anovaForm, Model model, BindingResult bindingResult)
+	@RequestMapping(value = "/confirmation", method = RequestMethod.POST, params="calculate")
+	public String calculateAnova(@ModelAttribute AnovaForm anovaForm, Model model, BindingResult bindingResult)
 			throws SQLException, InterruptedException {
 
 		//if (bindingResult.hasErrors()) { return "form"; }
@@ -56,15 +49,15 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		input.setPValueEstimation(anovaForm.getPValueEstimation());
 		input.setPvalueth(anovaForm.getPvalueth());
 
-		/* create a new in the database to get the integer job id
-		   add the integer job id to the model so it can be shown in the view */
-		AnovaDatabase blankRows = new AnovaDatabase();
-		blankRows.createBlankDbRow();
-		model.addAttribute("integerJobId", blankRows.getIntegerJobId());
+		/* create a new record in the database for the transaction
+		 * and get the value, intergerJobId, as a confirmation number */
+		AnovaDatabase newAnovaOutputRecord = new AnovaDatabase();
+		newAnovaOutputRecord.createBlankDbRow();
+		model.addAttribute("integerJobId", newAnovaOutputRecord.getIntegerJobId());
 		
-		/* create and Anova output object with the input as a parameter for execution.
-		   open database connection to send data once execution is done
-		   process this calculation on a new thread */
+		/* create an Anova output object with the input as a parameter for execution.
+		 * open database connection to send data once execution is done
+		 * process this calculation on a new thread */
 		Anova anova = new Anova(input);
 		AnovaDatabase d1 = new AnovaDatabase();
 		logger.info("Before new thread is created for Anova calculation");
@@ -73,21 +66,14 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		t.start();
 		logger.info("Current thread continues. Anova calculation is running on another thread");
 
-		/*
-		 * model.addAttribute("featuresIndexes",
-		 * Arrays.toString(output.getFeaturesIndexes()));
-		 * model.addAttribute("result2DArray",
-		 * Arrays.deepToString(output.getResult2DArray()));
-		 * model.addAttribute("significances",
-		 * Arrays.toString(output.getSignificances()));
-		 */
-
 		return "confirmation";
 	}
 
+	//control the query action
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery,
 			Model model, BindingResult bindingResult2) {
+		//query the database based on the integerJobId and add the resulting data to the model
 		try {
 			model.addAttribute("featuresIndexes",
 					anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getIntegerJobId()));
@@ -95,7 +81,6 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 					anovaResultQuery.queryResult2DArray(anovaResultQuery.getIntegerJobId()));
 			model.addAttribute("significances",
 					anovaResultQuery.querySignificances(anovaResultQuery.getIntegerJobId()));
-			//model.addAttribute("job", anovaResultQuery.getIntegerJobId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,18 +88,4 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		return "query";
 	}
 	
-	/*
-	@RequestMapping(value="/owners/{ownerId}", method=RequestMethod.GET)
-	public String findOwner(@PathVariable String ownerId, Model model) {
-	  Owner owner = ownerService.findOwner(ownerId);
-	  model.addAttribute("owner", owner);
-	  return "displayOwner";
-	}
-	*/
-	
-	
-	
-	
-
-
 }
