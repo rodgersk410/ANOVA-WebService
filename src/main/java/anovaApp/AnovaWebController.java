@@ -22,7 +22,7 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showForm(AnovaForm anovaForm) {
+	public String showForm(AnovaForm anovaForm, AnovaResultQuery anovaResultQuery) {
 		return "form";
 	}
 
@@ -33,9 +33,9 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 	 * output.getById(id); }
 	 */
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST, params="calculate")
 	// @ResponseBody
-	public String checkAnovaInfo(@ModelAttribute @Valid AnovaForm anovaForm, Model model, BindingResult bindingResult)
+	public String checkAnovaInfo(@ModelAttribute AnovaForm anovaForm, Model model, BindingResult bindingResult)
 			throws SQLException, InterruptedException {
 
 		//if (bindingResult.hasErrors()) { return "form"; }
@@ -84,13 +84,8 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		return "results";
 	}
 
-	@RequestMapping(value = "/Query", method = RequestMethod.GET)
-	public String showQueryForm(AnovaResultQuery anovaResultQuery) {
-		return "InputQueryForm";
-	}
-
-	@RequestMapping(value = "/Query", method = RequestMethod.POST)
-	public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery, Model model) {
+	@RequestMapping(value = "/", method = RequestMethod.POST, params="query")
+	public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery, Model model, BindingResult bindingResult2) {
 		try {
 			model.addAttribute("featuresIndexes",
 					anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getIntegerJobId()));

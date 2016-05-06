@@ -3,7 +3,6 @@
 	<form action="#" th:action="@{/}" th:object="${anovaForm}"
 		method="post">
 		<body>
-			<h1>ANOVA TEST</h1>
 			<table>
 				<tr>
 					<td>Please upload a data file of the observed values from the trial:</td>
@@ -73,7 +72,22 @@
 						Error</td>
 				</tr>
 				<tr>
-					<td><button type="submit">Submit</button></td>
+					<td><input type="submit" name="calculate" class="button" value="Submit"/></td>
+				</tr>
+			</table>
+		</body>
+	</form>
+		<form action="#" th:action="@{/}" th:object="${anovaResultQuery}"
+		method="post">
+		<body>
+			<h1>Query an existing calculation</h1>
+			<table>
+				<tr>
+					<td>Please enter the confirmation number:</td>
+					<td><input type="text" th:field="*{integerJobId}" /></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="query" class="button" value="Query"/></td>
 				</tr>
 			</table>
 		</body>

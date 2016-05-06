@@ -18,9 +18,6 @@ public class AnovaDatabase {
         Class.forName("org.sqlite.JDBC");
         String dbURL = "jdbc:sqlite:anovaResults.db";
         session = DriverManager.getConnection(dbURL);
-        /*Statement st = conn.createStatement();
-        st.executeUpdate("CREATE table anovaResultsTable (indexes varchar(10000))");
-        */
         
         if (session != null) {
             System.out.println("Connected to the database");
