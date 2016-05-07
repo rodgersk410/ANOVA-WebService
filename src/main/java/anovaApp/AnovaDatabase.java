@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class AnovaDatabase {
 	
-	int integerJobId;
+	int jobId;
 	
 	public Connection getSqlLiteConnection(){	
 		Connection session = null;
@@ -36,14 +36,14 @@ public class AnovaDatabase {
 			String result2DArray, String significances) throws SQLException{
 		
 		Connection conn = this.getSqlLiteConnection();
-		integerJobId = getIntegerJobId();
+		jobId = getJobId();
 		
 		//Insert the Anova calculated result into the db
 		//TO DO: set status to Complete
 		String sql = "UPDATE AnovaResultsTable SET "
 				+ "featuresIndexes='" + featuresIndexes + "', result2DArray='" + result2DArray + "',"
 						+ "significances='" + significances + "'"
-								+ "WHERE integerJobId='" + integerJobId + "';";
+								+ "WHERE jobId='" + jobId + "';";
 		final Logger log = LoggerFactory.getLogger(this.getClass());
 		log.info(sql);
 
@@ -71,7 +71,7 @@ public class AnovaDatabase {
 	}
 	
 	//get integer job id so we can use for updating the table
-	public int getIntegerJobId() throws SQLException{
+	public int getJobId() throws SQLException{
 		
 		Connection conn = this.getSqlLiteConnection();
 		
@@ -82,11 +82,11 @@ public class AnovaDatabase {
 
 		//Prepare statement, execute, and get the integer job id
 		PreparedStatement ps = conn.prepareStatement(sql);
-		integerJobId = ps.executeQuery().getInt(1);
+		jobId = ps.executeQuery().getInt(1);
 		conn.close();
-		log.info("Integer Job Id " + integerJobId);
+		log.info("Integer Job Id " + jobId);
 		
-		return integerJobId;
+		return jobId;
 	}
 	
 }

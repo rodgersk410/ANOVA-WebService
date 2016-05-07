@@ -1,10 +1,16 @@
 <html>
+<head>
+<link
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet" />
+</head>
 <body>
 	<form action="#" th:action="@{/confirmation}">
 		<body>
-			<p th:text="'Your Anova calculation has started processing.
+			<p
+				th:text="'Your Anova calculation has started processing.
 			You can return to the previous page to check the status of your request.
-			Your confirmation number is: ' + ${integerJobId}" />
+			Your confirmation number is: ' + ${jobId}" />
 		</body>
 	</form>
 </body>

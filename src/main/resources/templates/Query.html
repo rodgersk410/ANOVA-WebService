@@ -1,10 +1,27 @@
 <html>
+<head>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
 <body>
 	<form action="#" th:action="@{/query}">
 		<body>
-			<p th:text="'features indexes: ' + ${featuresIndexes}" />
-			<p th:text="'2d array: ' + ${result2DArray}" />
-			<p th:text="'significances: ' + ${significances}" />
+			<p th:text="'Anova calculation for transaction number: ' + ${jobId}" />
+			<td th:if="${significances == null}">Your request is still calculating.  Please
+			check again later.</td>
+			<table>
+				<tr>
+					<td th:if="${featuresIndexes != null}">Features Indexes</td>
+					<td th:if="${featuresIndexes != null}" th:text="${featuresIndexes}" />
+				</tr>
+				<tr>
+					<td th:if="${result2DArray != null}">2D Array</td>
+					<td th:if="${result2DArray != null}" th:text="${result2DArray}" />
+				</tr>
+				<tr>
+					<td th:if="${significances != null}">Significances</td>
+					<td th:if="${significances != null}" th:text="${significances}" />
+				</tr>
+			</table>
 		</body>
 	</form>
 </body>

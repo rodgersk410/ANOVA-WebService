@@ -29,7 +29,7 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 	}
 
 	@RequestMapping(value = "/confirmation", method = RequestMethod.POST, params="calculate")
-	public String calculateAnova(@ModelAttribute AnovaForm anovaForm, Model model, BindingResult bindingResult)
+	public String calculateAnova(AnovaForm anovaForm, Model model, BindingResult bindingResult)
 			throws SQLException, InterruptedException {
 
 		//if (bindingResult.hasErrors()) { return "form"; }
@@ -53,7 +53,7 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		 * and get the value, intergerJobId, as a confirmation number */
 		AnovaDatabase newAnovaOutputRecord = new AnovaDatabase();
 		newAnovaOutputRecord.createBlankDbRow();
-		model.addAttribute("integerJobId", newAnovaOutputRecord.getIntegerJobId());
+		model.addAttribute("jobId", newAnovaOutputRecord.getJobId());
 		
 		/* create an Anova output object with the input as a parameter for execution.
 		 * open database connection to send data once execution is done
@@ -71,16 +71,17 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 
 	//control the query action
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
-	public String queryResults(@ModelAttribute AnovaResultQuery anovaResultQuery,
+	public String queryResults(AnovaResultQuery anovaResultQuery,
 			Model model, BindingResult bindingResult2) {
-		//query the database based on the integerJobId and add the resulting data to the model
+		//query the database based on the jobId and add the resulting data to the model
 		try {
 			model.addAttribute("featuresIndexes",
-					anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getIntegerJobId()));
+					anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getJobId()));
 			model.addAttribute("result2DArray",
-					anovaResultQuery.queryResult2DArray(anovaResultQuery.getIntegerJobId()));
+					anovaResultQuery.queryResult2DArray(anovaResultQuery.getJobId()));
 			model.addAttribute("significances",
-					anovaResultQuery.querySignificances(anovaResultQuery.getIntegerJobId()));
+					anovaResultQuery.querySignificances(anovaResultQuery.getJobId()));
+			model.addAttribute("jobId", anovaResultQuery.getJobId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,7 +14,7 @@ public class AnovaForm {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@NotNull
+
 	private String observedValuesFileName;
 
 	private List<String> observedValues;
@@ -22,25 +22,25 @@ public class AnovaForm {
 	
 	public int[] groupAssignments;
 
-	@NotNull
+//	@NotNull
 	private int numGenes;
 
-	@NotNull
+//	@NotNull
 	private int numSelectedGroups;
 
-	@NotNull
+//	@NotNull
 	private double pvalueth;
 
-	@NotNull
+//	@NotNull
 	private int pValueEstimation;
 
-	@NotNull
+//	@NotNull
 	private int permutationsNumber;
 
-	@NotNull
+//	@NotNull
 	private int falseDiscoveryRateControl;
 
-	@NotNull
+//	@NotNull
 	private float falseSignificantGenesLimit;
 
 	public String getObservedValuesFileName() {
