@@ -22,17 +22,16 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showForm(AnovaForm anovaForm, AnovaResultQuery anovaResultQuery) {
 		return "form";
 	}
 
-	@RequestMapping(value = "/confirmation", method = RequestMethod.POST, params="calculate")
+	@RequestMapping(value = "/confirmation", method = RequestMethod.POST, params = "calculate")
 	public String calculateAnova(AnovaForm anovaForm, Model model, BindingResult bindingResult)
 			throws SQLException, InterruptedException {
 
-		//if (bindingResult.hasErrors()) { return "form"; }
+		// if (bindingResult.hasErrors()) { return "form"; }
 
 		// read the file and populate the 2D Array
 		anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
@@ -49,15 +48,19 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		input.setPValueEstimation(anovaForm.getPValueEstimation());
 		input.setPvalueth(anovaForm.getPvalueth());
 
-		/* create a new record in the database for the transaction
-		 * and get the value, intergerJobId, as a confirmation number */
+		/*
+		 * create a new record in the database for the transaction and get the
+		 * value, intergerJobId, as a confirmation number
+		 */
 		AnovaDatabase newAnovaOutputRecord = new AnovaDatabase();
 		newAnovaOutputRecord.createBlankDbRow();
 		model.addAttribute("jobId", newAnovaOutputRecord.getJobId());
-		
-		/* create an Anova output object with the input as a parameter for execution.
-		 * open database connection to send data once execution is done
-		 * process this calculation on a new thread */
+
+		/*
+		 * create an Anova output object with the input as a parameter for
+		 * execution. open database connection to send data once execution is
+		 * done process this calculation on a new thread
+		 */
 		Anova anova = new Anova(input);
 		AnovaDatabase d1 = new AnovaDatabase();
 		logger.info("Before new thread is created for Anova calculation");
@@ -69,18 +72,15 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		return "confirmation";
 	}
 
-	//control the query action
+	// control the query action
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
-	public String queryResults(AnovaResultQuery anovaResultQuery,
-			Model model, BindingResult bindingResult2) {
-		//query the database based on the jobId and add the resulting data to the model
+	public String queryResults(AnovaResultQuery anovaResultQuery, Model model, BindingResult bindingResult2) {
+		// query the database based on the jobId and add the resulting data to
+		// the model
 		try {
-			model.addAttribute("featuresIndexes",
-					anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getJobId()));
-			model.addAttribute("result2DArray",
-					anovaResultQuery.queryResult2DArray(anovaResultQuery.getJobId()));
-			model.addAttribute("significances",
-					anovaResultQuery.querySignificances(anovaResultQuery.getJobId()));
+			model.addAttribute("featuresIndexes", anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getJobId()));
+			model.addAttribute("result2DArray", anovaResultQuery.queryResult2DArray(anovaResultQuery.getJobId()));
+			model.addAttribute("significances", anovaResultQuery.querySignificances(anovaResultQuery.getJobId()));
 			model.addAttribute("jobId", anovaResultQuery.getJobId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -88,5 +88,5 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		}
 		return "query";
 	}
-	
+
 }

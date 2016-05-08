@@ -1,28 +1,52 @@
 <html>
 <head>
-<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css"
+	rel="stylesheet" />
 </head>
 <body>
 	<form action="#" th:action="@{/query}">
 		<body>
-			<p th:text="'Anova calculation for transaction number: ' + ${jobId}" />
-			<td th:if="${significances == null}">Your request is still calculating.  Please
-			check again later.</td>
-			<table>
-				<tr>
-					<td th:if="${featuresIndexes != null}">Features Indexes</td>
-					<td th:if="${featuresIndexes != null}" th:text="${featuresIndexes}" />
-				</tr>
-				<tr>
-					<td th:if="${result2DArray != null}">2D Array</td>
-					<td th:if="${result2DArray != null}" th:text="${result2DArray}" />
-				</tr>
-				<tr>
-					<td th:if="${significances != null}">Significances</td>
-					<td th:if="${significances != null}" th:text="${significances}" />
-				</tr>
-			</table>
+			<h3>ANOVA Calculation Results</h3>
+			<br />
+			<a class="list-group-item">
+				<h4 class="list-group-item-heading">Confirmation Number</h4>
+				<p class="list-group-item-text" th:text="${jobId}" />
+			</a>
+			<a class="list-group-item">
+				<h4 class="list-group-item-heading">Calculation Status</h4>
+				<div th:if="${significances != null}">
+					<h4>
+						<span class="label label-success">Complete!</span>
+					</h4>
+				</div>
+				<div th:if="${jobId == null}">
+						<h4>
+							<span class="label label-danger">Id Not Found</span>
+						</h4>
+				</div>
+				<div th:if="${jobId != null}">
+					<div th:if="${significances == null}">
+						<h4>
+							<span class="label label-warning">Pending</span>
+						</h4>
+					</div>
+				</div>
+			</a>
+			<div class="list-group" th:if="${significances != null}">
+				<a class="list-group-item">
+					<h4 class="list-group-item-heading">Features Indexes</h4>
+					<p class="list-group-item-text" th:text="${featuresIndexes}" />
+				</a> <a class="list-group-item">
+					<h4 class="list-group-item-heading">2D Array</h4>
+					<p class="list-group-item-text" th:text="${result2DArray}" />
+				</a> <a class="list-group-item">
+					<h4 class="list-group-item-heading">Significances</h4>
+					<p class="list-group-item-text" th:text="${significances}" />
+				</a>
+			</div>
 		</body>
 	</form>
+
 </body>
 </html>

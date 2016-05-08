@@ -11,36 +11,35 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class AnovaForm {
-	
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private String observedValuesFileName;
 
 	private List<String> observedValues;
 	private float[][] observedValuesArray;
-	
+
 	public int[] groupAssignments;
 
-//	@NotNull
+	// @NotNull
 	private int numGenes;
 
-//	@NotNull
+	// @NotNull
 	private int numSelectedGroups;
 
-//	@NotNull
+	// @NotNull
 	private double pvalueth;
 
-//	@NotNull
+	// @NotNull
 	private int pValueEstimation;
 
-//	@NotNull
+	// @NotNull
 	private int permutationsNumber;
 
-//	@NotNull
+	// @NotNull
 	private int falseDiscoveryRateControl;
 
-//	@NotNull
+	// @NotNull
 	private float falseSignificantGenesLimit;
 
 	public String getObservedValuesFileName() {
@@ -54,20 +53,19 @@ public class AnovaForm {
 	public List<String> getObservedValues() {
 		return observedValues;
 	}
-	
+
 	public float[][] getObservedValuesArray() {
 		return observedValuesArray;
 	}
 
 	public void setObservedValues(String observedValuesFileName) throws InterruptedException {
 		try {
-			log.info("Filename is: " + observedValuesFileName);
 			observedValues = Files.readAllLines(Paths.get(observedValuesFileName));
 			String stringObservedValues = "";
 			for (String s : observedValues) {
 				stringObservedValues += s + "\t";
 			}
-			
+
 			// Split on this delimiter
 			String[] rows = stringObservedValues.split("},\\{");
 			for (int i = 0; i < rows.length; i++) {
@@ -87,18 +85,18 @@ public class AnovaForm {
 				matrix[i] = rows[i].split(",");
 				for (int j = 0; j < matrix[i].length; j++) {
 					observedValues[i][j] = Float.parseFloat(matrix[i][j]);
-					
+
 				}
 			}
-			
-			observedValuesArray=observedValues;
+
+			observedValuesArray = observedValues;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			log.info(e.getMessage());
 		}
 	}
-	
+
 	public int[] getGroupAssignments() {
 		return groupAssignments;
 	}
