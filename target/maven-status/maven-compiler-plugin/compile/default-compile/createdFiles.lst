@@ -1,5 +1,4 @@
 anovaApp\Application.class
-org\geworkbench\components\anova\gui\TableViewer$AnovaViewerTableModel.class
 org\geworkbench\components\anova\service\AnovaService.class
 org\geworkbench\components\anova\AnovaException.class
 org\geworkbench\components\anova\Anova.class
@@ -8,10 +7,7 @@ anovaApp\AnovaWebController.class
 org\geworkbench\components\anova\FalseDiscoveryRateControl.class
 anovaApp\AnovaForm.class
 org\geworkbench\components\anova\data\AnovaOutput.class
-org\geworkbench\components\anova\gui\TableViewer$CellRenderer.class
-org\geworkbench\components\anova\gui\TableViewer.class
 anovaApp\AnovaDatabase.class
-org\geworkbench\components\anova\gui\TableViewer$1.class
 anovaApp\MyRunnable.class
 anovaApp\AnovaResultQuery.class
 org\geworkbench\components\anova\PValueEstimation.class
