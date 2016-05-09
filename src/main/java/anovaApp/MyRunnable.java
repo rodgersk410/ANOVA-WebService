@@ -9,6 +9,10 @@ import org.geworkbench.components.anova.data.AnovaOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/*/
+ * This class allows the ANOVA calculation to run on another thread.
+ * It implements the Runnable Interface (run method) to do so
+ */
 public class MyRunnable implements Runnable {
 
 	Anova anova = null;
@@ -16,14 +20,17 @@ public class MyRunnable implements Runnable {
 	AnovaDatabase d1;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	// Processing on a new thread needs the anova object to process and a
-	// database connection
+	/*
+	 * Construct this method and pass in the anova dataset/db connection
+	 */
 	public MyRunnable(Anova anova, AnovaDatabase d1) {
 		this.anova = anova;
 		this.d1 = d1;
 	}
 
-	// calculate the anova result and post it to the database
+	/*
+	 *  calculate the anova result and post it to the database
+	 */
 	public void run() {
 		try {
 			output = this.anova.execute();

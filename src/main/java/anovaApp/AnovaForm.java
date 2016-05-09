@@ -1,7 +1,5 @@
 package anovaApp;
 
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,36 +10,21 @@ import java.util.List;
 
 public class AnovaForm {
 
+	//Anova Calculation Input Fields
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-
 	private String observedValuesFileName;
-
 	private List<String> observedValues;
 	private float[][] observedValuesArray;
-
 	public int[] groupAssignments;
-
-	// @NotNull
 	private int numGenes;
-
-	// @NotNull
 	private int numSelectedGroups;
-
-	// @NotNull
 	private double pvalueth;
-
-	// @NotNull
 	private int pValueEstimation;
-
-	// @NotNull
 	private int permutationsNumber;
-
-	// @NotNull
 	private int falseDiscoveryRateControl;
-
-	// @NotNull
 	private float falseSignificantGenesLimit;
-
+	
+	//Get and Set Methods for each field
 	public String getObservedValuesFileName() {
 		return observedValuesFileName;
 	}
@@ -58,6 +41,10 @@ public class AnovaForm {
 		return observedValuesArray;
 	}
 
+	/*
+	 * This method takes the file from the user's desktop and then sets up the observed values
+	 * so that it can be used for the calculation.
+	*/
 	public void setObservedValues(String observedValuesFileName) throws InterruptedException {
 		try {
 			observedValues = Files.readAllLines(Paths.get(observedValuesFileName));

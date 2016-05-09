@@ -3,6 +3,9 @@ package anovaApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/*
+ * This class contains the main method where the program starts
+ */
 @SpringBootApplication
 public class Application {
 	

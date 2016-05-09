@@ -9,6 +9,7 @@ public class AnovaDatabase {
 
 	int jobId;
 
+	//get connection to SQLite database
 	public Connection getSqlLiteConnection() {
 		Connection session = null;
 		try {
@@ -28,7 +29,7 @@ public class AnovaDatabase {
 		return session;
 	}
 
-	// post the anova calculation result to the db based on integer job id
+	// post the anova calculation result to the db based on job id
 	public void updateIndexValues(String featuresIndexes, String result2DArray, String significances)
 			throws SQLException {
 
@@ -45,7 +46,7 @@ public class AnovaDatabase {
 		conn.close();
 	}
 
-	// when user submits the form, create a new record in the db
+	// when user submits the form, create a new record in the db (job id increments by default)
 	public void createBlankDbRow() throws SQLException {
 
 		Connection conn = this.getSqlLiteConnection();
@@ -59,7 +60,7 @@ public class AnovaDatabase {
 		conn.close();
 	}
 
-	// get integer job id so we can use for updating the table
+	// get job id so we can use for updating the table
 	public int getJobId() throws SQLException {
 
 		Connection conn = this.getSqlLiteConnection();

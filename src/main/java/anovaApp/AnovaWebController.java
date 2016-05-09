@@ -1,7 +1,6 @@
 package anovaApp;
 
 import java.sql.SQLException;
-import javax.validation.Valid;
 import org.geworkbench.components.anova.Anova;
 import org.geworkbench.components.anova.data.AnovaInput;
 import org.slf4j.Logger;
@@ -9,29 +8,40 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/*
+ * This controller manages the calculation and querying operations
+ */
 @Controller
 public class AnovaWebController extends WebMvcConfigurerAdapter {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/*
+	 * Show homepage and map AnovaForm and AnovaResultQuery objects to the fields
+	 * on the 'form.html' page
+	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showForm(AnovaForm anovaForm, AnovaResultQuery anovaResultQuery) {
 		return "form";
 	}
+	
+	/*
+	 * Post request to server and kick off the Anova calculation.
+	 * The fields from the form.html view are binded to the AnovaForm class object.
+	 * Then, the field values from the form are passed to the AnovaInput class object
+	 * and eventually executed on another thread.  After the user submits the request,
+	 * the user is taken to the confirmation.html page.
+	 */
 
 	@RequestMapping(value = "/confirmation", method = RequestMethod.POST, params = "calculate")
 	public String calculateAnova(AnovaForm anovaForm, Model model, BindingResult bindingResult)
 			throws SQLException, InterruptedException {
-
-		// if (bindingResult.hasErrors()) { return "form"; }
 
 		// read the file and populate the 2D Array
 		anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
@@ -49,17 +59,15 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		input.setPvalueth(anovaForm.getPvalueth());
 
 		/*
-		 * create a new record in the database for the transaction and get the
-		 * value, intergerJobId, as a confirmation number
+		 * create a new record in the database for the transaction and get the confirmation
+		 * number (jobId)
 		 */
 		AnovaDatabase newAnovaOutputRecord = new AnovaDatabase();
 		newAnovaOutputRecord.createBlankDbRow();
 		model.addAttribute("jobId", newAnovaOutputRecord.getJobId());
 
 		/*
-		 * create an Anova output object with the input as a parameter for
-		 * execution. open database connection to send data once execution is
-		 * done process this calculation on a new thread
+		 * create a new thread, execute the calculation, and post the result to the db
 		 */
 		Anova anova = new Anova(input);
 		AnovaDatabase d1 = new AnovaDatabase();
@@ -72,11 +80,14 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 		return "confirmation";
 	}
 
-	// control the query action
+	/*
+	 * Get the result of the calculation by querying the database and show on the 'query.html' page.
+	 * Adds the desired fields to the model so it can be referenced in the view
+	 */
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public String queryResults(AnovaResultQuery anovaResultQuery, Model model, BindingResult bindingResult2) {
-		// query the database based on the jobId and add the resulting data to
-		// the model
+		
+		// query the database based on the jobId and add the resulting data to the model
 		try {
 			model.addAttribute("featuresIndexes", anovaResultQuery.queryFeaturesIndexes(anovaResultQuery.getJobId()));
 			model.addAttribute("result2DArray", anovaResultQuery.queryResult2DArray(anovaResultQuery.getJobId()));
