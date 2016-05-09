@@ -1,0 +1,52 @@
+<html>
+<head>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css"
+	rel="stylesheet" />
+</head>
+<body>
+	<form action="#" th:action="@{/query}">
+		<body>
+			<h3>ANOVA Calculation Results</h3>
+			<br />
+			<a class="list-group-item">
+				<h4 class="list-group-item-heading">Confirmation Number</h4>
+				<p class="list-group-item-text" th:text="${jobId}" />
+			</a>
+			<a class="list-group-item">
+				<h4 class="list-group-item-heading">Calculation Status</h4>
+				<div th:if="${significances != null}">
+					<h4>
+						<span class="label label-success">Complete!</span>
+					</h4>
+				</div>
+				<div th:if="${jobId == null}">
+						<h4>
+							<span class="label label-danger">Id Not Found</span>
+						</h4>
+				</div>
+				<div th:if="${jobId != null}">
+					<div th:if="${significances == null}">
+						<h4>
+							<span class="label label-warning">Pending</span>
+						</h4>
+					</div>
+				</div>
+			</a>
+			<div class="list-group" th:if="${significances != null}">
+				<a class="list-group-item">
+					<h4 class="list-group-item-heading">Features Indexes</h4>
+					<p class="list-group-item-text" th:text="${featuresIndexes}" />
+				</a> <a class="list-group-item">
+					<h4 class="list-group-item-heading">2D Array</h4>
+					<p class="list-group-item-text" th:text="${result2DArray}" />
+				</a> <a class="list-group-item">
+					<h4 class="list-group-item-heading">Significances</h4>
+					<p class="list-group-item-text" th:text="${significances}" />
+				</a>
+			</div>
+		</body>
+	</form>
+
+</body>
+</html>

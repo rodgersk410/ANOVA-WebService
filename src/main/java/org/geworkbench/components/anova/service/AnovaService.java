@@ -7,20 +7,20 @@ import org.geworkbench.components.anova.Anova;
 
 public class AnovaService {
 
-	public AnovaOutput execute(AnovaInput input) {
+	public AnovaOutput execute(AnovaInput input) throws InterruptedException {
 		 
+		AnovaOutput output = null;
 		try {
-			AnovaOutput output = null;
-			try {
+		try {
 			output = new Anova(
 					input).execute();
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			}
-			return output;
-		} catch (AnovaException e) {
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
 		}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return output;
 	}
 }

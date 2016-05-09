@@ -88,7 +88,7 @@ public class AnovaTest extends TestCase {
 	float falseSignificantGenesLimit = 121f;
 
 	@Test
-	public void test1() {
+	public void test1() throws InterruptedException {
 		AnovaInput input = new AnovaInput();
 		input.setA(A);
 		input.setFalseDiscoveryRateControl(falseDiscoveryRateControl);

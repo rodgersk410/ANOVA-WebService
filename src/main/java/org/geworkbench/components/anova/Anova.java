@@ -2,7 +2,8 @@ package org.geworkbench.components.anova;
  
 import org.geworkbench.components.anova.data.AnovaInput;
 import org.geworkbench.components.anova.data.AnovaOutput;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tigr.microarray.mev.cluster.algorithm.AbortException;
 import org.tigr.microarray.mev.cluster.algorithm.AlgorithmData;
 import org.tigr.microarray.mev.cluster.algorithm.AlgorithmException;
@@ -44,7 +45,11 @@ public class Anova   {
 		 this.falseSignificantGenesLimit = input.getFalseSignificantGenesLimit();
 	}
 
-	public AnovaOutput execute() throws AnovaException {	 
+	public AnovaOutput execute() throws AnovaException, InterruptedException {	
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("Slow Anova calculation has started");
+		Thread.sleep(200);
+		logger.info("Slow Anova calculation has completed");
 		 
 		cancelled = false;		
 	 

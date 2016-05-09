@@ -1,0 +1,19 @@
+<html>
+<head>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css"
+	rel="stylesheet" />
+</head>
+<body>
+	<form action="#" th:action="@{/confirmation}">
+		<body>
+
+			<h3>Thank You</h3>
+			<p>Your Anova calculation has started processing.
+			You can return to the previous page to check the status of your request.</p>
+			<h5><p class="text-primary"
+				th:text="'Your confirmation number is: ' + ${jobId}"></p></h5>
+		</body>
+	</form>
+</body>
+</html>

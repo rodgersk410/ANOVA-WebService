@@ -1,50 +1,30 @@
 package anovaApp;
 
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 public class AnovaForm {
-	
+
+	//Anova Calculation Input Fields
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	private int integerJobId;	
-
-	@NotNull
 	private String observedValuesFileName;
-
 	private List<String> observedValues;
-	private float[][] observedValues2;
-	
+	private float[][] observedValuesArray;
 	public int[] groupAssignments;
-
-	@NotNull
 	private int numGenes;
-
-	@NotNull
 	private int numSelectedGroups;
-
-	@NotNull
 	private double pvalueth;
-
-	@NotNull
 	private int pValueEstimation;
-
-	@NotNull
 	private int permutationsNumber;
-
-	@NotNull
 	private int falseDiscoveryRateControl;
-
-	@NotNull
 	private float falseSignificantGenesLimit;
-
+	
+	//Get and Set Methods for each field
 	public String getObservedValuesFileName() {
 		return observedValuesFileName;
 	}
@@ -56,14 +36,17 @@ public class AnovaForm {
 	public List<String> getObservedValues() {
 		return observedValues;
 	}
-	
-	public float[][] getObservedValues2() {
-		return observedValues2;
+
+	public float[][] getObservedValuesArray() {
+		return observedValuesArray;
 	}
 
-	public void setObservedValues(String observedValuesFileName) {
+	/*
+	 * This method takes the file from the user's desktop and then sets up the observed values
+	 * so that it can be used for the calculation.
+	*/
+	public void setObservedValues(String observedValuesFileName) throws InterruptedException {
 		try {
-			log.info("Filename is: " + observedValuesFileName);
 			observedValues = Files.readAllLines(Paths.get(observedValuesFileName));
 			String stringObservedValues = "";
 			for (String s : observedValues) {
@@ -89,25 +72,18 @@ public class AnovaForm {
 				matrix[i] = rows[i].split(",");
 				for (int j = 0; j < matrix[i].length; j++) {
 					observedValues[i][j] = Float.parseFloat(matrix[i][j]);
-					
-				}
-			}
-			
-			observedValues2=observedValues;
 
-			// Display matrix
-			for (int i =0; i <6; i++){
-				for (int j = 0; j<6; j++){
-					//log.info("VALUE AT ["+i+"]["+j+"] "+observedValues2[i][j]);
 				}
 			}
+
+			observedValuesArray = observedValues;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			log.info(e.getMessage());
 		}
 	}
-	
+
 	public int[] getGroupAssignments() {
 		return groupAssignments;
 	}
