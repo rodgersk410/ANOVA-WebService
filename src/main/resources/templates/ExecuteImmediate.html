@@ -1,0 +1,116 @@
+<html>
+<body>
+<head>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css"
+	rel="stylesheet" />
+</head>
+<h2>ANOVA Analysis Tool</h2>
+<form class="form-horizontal" action="#" th:action="@{/immediateExecute}"
+	th:object="${anovaForm}" method="post">
+	<fieldset>
+		<body>
+			<br />
+			<legend>Perform an ANOVA calculation</legend>
+			<div class="form-group">
+				<label for="inputobservedValuesFileName"
+					class="col-lg-2 control-label">Observed Values</label>
+				<div class="col-lg-3">
+					<input type="text" class="form-control" id="observedValuesFileName"
+						placeholder="File path for data (e.g. C:\Users\keith\Downloads\data.txt)"
+						th:field="*{observedValuesFileName}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputGroupAssignments" class="col-lg-2 control-label">Group
+					Assignment</label>
+				<div class="col-lg-3">
+					<input type="text" class="form-control" id="groupAssignments"
+						placeholder="List group assignments separated by commas (e.g. 1, 1, 2)"
+						th:field="*{groupAssignments}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputNumGenes" class="col-lg-2 control-label">Number
+					of Genes</label>
+				<div class="col-lg-2">
+					<input type="text" class="form-control" id="numGenes"
+						placeholder="Please enter a number..." th:field="*{numGenes}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputNumSelectedGroups" class="col-lg-2 control-label">Number
+					of Groups</label>
+				<div class="col-lg-2">
+					<input type="text" class="form-control" id="numSelectedGroups"
+						placeholder="Please enter a number..."
+						th:field="*{numSelectedGroups}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPvalueth" class="col-lg-2 control-label">P-Value</label>
+				<div class="col-lg-2">
+					<input type="text" class="form-control" id="pvalueth"
+						placeholder="Please enter a number..." th:field="*{pvalueth}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">P-Value Estimation
+					Type</label>
+				<div class="col-lg-2">
+					<div class="radio">
+						<label> <input type="radio" name="pValueEstimation"
+							id="pValueEstimation" value="0" /> F Distribution
+						</label>
+					</div>
+					<div class="radio">
+						<label> <input type="radio" name="pValueEstimation"
+							id="pValueEstimation" value="1" /> Permutation
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPermutationsNumber" class="col-lg-2 control-label">Permutations</label>
+				<div class="col-lg-2">
+					<input type="text" class="form-control" id="permutationsNumber"
+						placeholder="Please enter a number..."
+						th:field="*{permutationsNumber}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="falseDiscoveryRateControl"
+					class="col-lg-2 control-label">False Discover Rate Control
+					Types</label>
+				<div class="col-lg-2">
+					<select class="form-control" id="falseDiscoveryRateControl">
+						<option value="0">Alpha</option>
+						<option value="1">Bonferroni</option>
+						<option value="2">Adjusted Bonferroni</option>
+						<option value="3">West Fall Young</option>
+						<option value="4">Number</option>
+						<option value="5">Proportion</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="falseSignificantGenesLimit"
+					class="col-lg-2 control-label">False Significance Genes
+					Limit</label>
+				<div class="col-lg-2">
+					<input type="text" class="form-control"
+						id="falseSignificantGenesLimit"
+						placeholder="Please enter a number..."
+						th:field="*{falseSignificantGenesLimit}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-2 col-lg-offset-2">
+					<button type="submit" name="calculate" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</body>
+	</fieldset>
+</form>
+</body>
+</html>

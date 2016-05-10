@@ -2,12 +2,15 @@ package anovaApp;
 
 import java.sql.SQLException;
 import org.geworkbench.components.anova.Anova;
+import org.geworkbench.components.anova.AnovaException;
 import org.geworkbench.components.anova.data.AnovaInput;
+import org.geworkbench.components.anova.data.AnovaOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -98,6 +101,52 @@ public class AnovaWebController extends WebMvcConfigurerAdapter {
 			e.printStackTrace();
 		}
 		return "query";
+	}
+	
+	/*
+	 * Return the calculation immediately (wait for calculation to finish).  Same as above but
+	 * the object is returned as JSON
+	 */
+	
+	@RequestMapping(value = "/immediateExecute", method = RequestMethod.GET)
+	public String showFormImmediate(AnovaForm anovaForm, AnovaResultQuery anovaResultQuery) {
+		return "ExecuteImmediate";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, params = "calculate")
+	public @ResponseBody AnovaOutput calculateAnovaImmediate(@ModelAttribute AnovaForm anovaForm, Model model, BindingResult bindingResult)
+			throws SQLException, InterruptedException, AnovaException {
+
+		// read the file and populate the 2D Array
+		anovaForm.setObservedValues(anovaForm.getObservedValuesFileName());
+
+		// create an AnovaInput object and apply the form's values to it
+		AnovaInput input = new AnovaInput();
+		input.setA(anovaForm.getObservedValuesArray());
+		input.setFalseDiscoveryRateControl(anovaForm.getFalseDiscoveryRateControl());
+		input.setFalseSignificantGenesLimit(anovaForm.getFalseSignificantGenesLimit());
+		input.setGroupAssignments(anovaForm.groupAssignments);
+		input.setNumGenes(anovaForm.getNumGenes());
+		input.setNumSelectedGroups(anovaForm.getNumSelectedGroups());
+		input.setPermutationsNumber(anovaForm.getPermutationsNumber());
+		input.setPValueEstimation(anovaForm.getPValueEstimation());
+		input.setPvalueth(anovaForm.getPvalueth());
+
+		/*
+		 * create a new record in the database for the transaction and get the confirmation
+		 * number (jobId)
+		 */
+		AnovaDatabase newAnovaOutputRecord = new AnovaDatabase();
+		newAnovaOutputRecord.createBlankDbRow();
+		model.addAttribute("jobId", newAnovaOutputRecord.getJobId());
+
+		/*
+		 * create a new thread, execute the calculation, and post the result to the db
+		 */
+		Anova anova = new Anova(input);
+		AnovaOutput anovaOutput = anova.execute();
+
+		return anovaOutput;
 	}
 
 }
